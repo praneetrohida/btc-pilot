@@ -1,8 +1,14 @@
-import { useRef, useState } from "react";
-import { useBoolean } from "react-hanger";
-import { rem } from "@mantine/core";
+import { useEffect, useRef, useState } from "react";
 
-export const useTimeout = ({ onEnd, duration }: { onEnd: () => void; duration: number }) => {
+export const useTimeout = ({
+  onEnd,
+  duration,
+  autoStart,
+}: {
+  onEnd: () => void;
+  duration: number;
+  autoStart?: boolean;
+}) => {
   // return remainingSecs
   const [remainingSecs, setRemainingSecs] = useState(duration);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
@@ -34,6 +40,10 @@ export const useTimeout = ({ onEnd, duration }: { onEnd: () => void; duration: n
       clearTimeout(timeoutId.current);
     }
   };
+
+  useEffect(() => {
+    if (autoStart) start();
+  }, []);
 
   return [remainingSecs, isTimeUp, start, stop] as const;
 };

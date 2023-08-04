@@ -7,6 +7,7 @@ import getBtcPrice from "src/game/queries/getBtcPrice";
 import { useTimeout } from "src/game/hooks/useTimeout";
 import { GameInput } from "src/game/components/GameInput";
 import getCurrentPrediction from "src/game/queries/getCurrentPrediction";
+import { GameResult } from "src/game/components/GameResult";
 
 const useStyles = createStyles((theme) => ({
   gameContainer: {
@@ -69,7 +70,7 @@ export const Game: React.FC = () => {
             )}
           </>
         )}
-        {currentPrediction && <Text>Prediction </Text>}
+        {currentPrediction && <GameResult prediction={currentPrediction} />}
       </Stack>
     </Stack>
   );
