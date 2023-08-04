@@ -34,6 +34,7 @@ model User {
   email          String   @unique
   hashedPassword String?
   role           String   @default("USER")
+  score          Int      @default(0)
 
   tokens      Token[]
   sessions    Session[]
