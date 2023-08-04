@@ -14,10 +14,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const GameInput: React.FC<{ currentPrice: number; timeToAnswer: number }> = ({
-  currentPrice,
-  timeToAnswer,
-}) => {
+export const GameInput: React.FC<{
+  currentPrice: number;
+  timeToAnswer: number;
+  onSelect: () => void;
+}> = ({ currentPrice, timeToAnswer, onSelect }) => {
   const { classes } = useStyles();
 
   const [createPrediction, { isLoading: isSubmitting }] = useMutation(createPredictionMutation);
@@ -25,6 +26,7 @@ export const GameInput: React.FC<{ currentPrice: number; timeToAnswer: number }>
   const onCreate = async (direction: PredictionDirection) => {
     await createPrediction({ direction, price: currentPrice });
     await invalidateQuery(getCurrentPrediction);
+    onSelect();
   };
 
   return (

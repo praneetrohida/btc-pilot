@@ -9,21 +9,21 @@ export default async function getCurrentPrediction(_ = null, { session }: Ctx) {
 
   const prediction = await db.prediction.findFirst({
     where: {
-      AND: [
-        { userId: session.userId },
-        {
-          createdAt: {
-            gte: sixtySecondsAgo,
-          },
-        },
-      ],
+      userId: session.userId,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
     select: {
       createdAt: true,
       price: true,
       direction: true,
+      laterPrice: true,
+      result: true,
     },
   });
 
-  return prediction;
+  if (!prediction) return null;
+
+  return { ...prediction, isPending: prediction.createdAt > sixtySecondsAgo };
 }

@@ -21,56 +21,60 @@ const useStyles = createStyles((theme) => ({
 export const Game: React.FC = () => {
   const { classes } = useStyles();
 
-  const hasStartedGame = useBoolean(false);
+  const gameInProgress = useBoolean(false);
 
   const [timeToAnswer, noTimeLeftToAnswer, startTimeoutToAnswer, stopTimeoutToAnswer] = useTimeout({
     duration: 5,
-    onEnd: hasStartedGame.setFalse,
+    onEnd: gameInProgress.setFalse,
   });
 
   const [btcPrice, { isLoading, error, refetch }] = useQuery(getBtcPrice, null, {
-    enabled: hasStartedGame.value,
+    enabled: gameInProgress.value,
     suspense: false,
-    onError: hasStartedGame.setFalse,
+    onError: gameInProgress.setFalse,
     cacheTime: 0,
   });
 
   const startGame = async () => {
-    hasStartedGame.setTrue();
+    gameInProgress.setTrue();
     startTimeoutToAnswer();
     await refetch();
   };
 
+  const onSelect = () => {
+    stopTimeoutToAnswer();
+    gameInProgress.setFalse();
+  };
+
   const [currentPrediction] = useQuery(getCurrentPrediction, null);
 
+  let shouldShowGameResult = !gameInProgress.value && currentPrediction && !noTimeLeftToAnswer;
+  let shouldShowStartButton = !gameInProgress.value && !currentPrediction?.isPending;
   return (
     <Stack spacing={40}>
       <Instructions />
 
       <Stack align="center" justify="center" className={classes.gameContainer}>
-        {!currentPrediction && (
+        {shouldShowGameResult && <GameResult prediction={currentPrediction} />}
+        {shouldShowStartButton && (
           <>
-            {!hasStartedGame.value && (
-              <>
-                {noTimeLeftToAnswer && <Text>Unfortunately, you ran out of time. Try again</Text>}
-                <Button onClick={startGame}>Start a new game</Button>
-              </>
-            )}
-            {error && (
-              <Alert color="red">An error occured when starting the game. Please try again</Alert>
-            )}
-
-            {hasStartedGame.value && (
-              <Stack sx={{ textAlign: "center" }}>
-                {isLoading && <Loader />}
-                {!isLoading && btcPrice && (
-                  <GameInput currentPrice={btcPrice} timeToAnswer={timeToAnswer} />
-                )}
-              </Stack>
-            )}
+            {noTimeLeftToAnswer && <Text>Unfortunately, you ran out of time. Try again</Text>}
+            <Button onClick={startGame}>Start a new game</Button>
           </>
         )}
-        {currentPrediction && <GameResult prediction={currentPrediction} />}
+
+        {error && (
+          <Alert color="red">An error occured when starting the game. Please try again</Alert>
+        )}
+
+        {gameInProgress.value && (
+          <Stack sx={{ textAlign: "center" }}>
+            {isLoading && <Loader />}
+            {!isLoading && btcPrice && (
+              <GameInput onSelect={onSelect} currentPrice={btcPrice} timeToAnswer={timeToAnswer} />
+            )}
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );

@@ -28,6 +28,7 @@ export const useTimeout = ({
   }
 
   const start = () => {
+    if (duration === 0) return onEnd();
     if (timeoutId.current) {
       clearTimeout(timeoutId.current);
     }

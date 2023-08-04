@@ -4,6 +4,7 @@ import getCurrentPrediction from "src/game/queries/getCurrentPrediction";
 import { PromiseReturnType } from "blitz";
 import { useTimeout } from "src/game/hooks/useTimeout";
 import { invalidateQuery } from "@blitzjs/rpc";
+import { PredictionResult } from "db";
 
 const useStyles = createStyles((theme) => ({
   timeLeft: { fontSize: "5rem", fontWeight: 900, color: theme.primaryColor },
@@ -19,17 +20,36 @@ export const GameResult: React.FC<{
     await invalidateQuery(getCurrentPrediction);
   };
 
-  const [timeLeft] = useTimeout({
-    duration: Math.round(timeToResult.current),
+  const [timeLeft, isTimedOut] = useTimeout({
+    duration: Math.max(0, Math.round(timeToResult.current)),
     onEnd: onTimeout,
     autoStart: true,
   });
 
   return (
     <>
-      <Text className={classes.timeLeft}>{timeLeft}</Text>
-      <Text>seconds left for your result.</Text>
-      <Text>This is a great time to meditate and practice some mindfulness.</Text>
+      {!isTimedOut && (
+        <>
+          <Text className={classes.timeLeft}>{timeLeft}</Text>
+          <Text>seconds left for your result.</Text>
+          <Text>This is a great time to meditate and practice some mindfulness.</Text>{" "}
+        </>
+      )}
+      {isTimedOut && (
+        <>
+          {prediction?.laterPrice && (
+            <>
+              {prediction.result === PredictionResult.WIN && <Text> You won! 🎉 </Text>}
+              {prediction.result === PredictionResult.LOSS && <Text> You lost! 😔 </Text>}
+              {prediction.result === PredictionResult.DRAW && (
+                <Text> Uh oh! The price stayed the same. Try again? </Text>
+              )}
+              You predicted that the price would go {prediction.direction.toLowerCase()}. <br />
+              The price went from {prediction.price} to {prediction.laterPrice}
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

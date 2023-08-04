@@ -1,6 +1,6 @@
 import { resolver } from "@blitzjs/rpc";
 import { z } from "zod";
-import db, { PredictionDirection } from "db";
+import db, { PredictionDirection, PredictionResult } from "db";
 import ms from "ms";
 import { getLatestBtcPrice } from "src/game/utils/getLatestBtcPrice";
 
@@ -29,21 +29,30 @@ export default resolver.pipe(
     setTimeout(async () => {
       const newPrice = await getLatestBtcPrice();
 
+      let priceStayedTheSame = newPrice === price;
+
+      const isPredictionCorrect =
+        (prediction.direction === PredictionDirection.UP && newPrice > prediction.price) ||
+        (prediction.direction === PredictionDirection.DOWN && newPrice < prediction.price);
+
+      let result: PredictionResult = priceStayedTheSame
+        ? PredictionResult.DRAW
+        : isPredictionCorrect
+        ? PredictionResult.WIN
+        : PredictionResult.LOSS;
+
       await db.prediction.update({
         where: {
           id: prediction.id,
         },
         data: {
           laterPrice: newPrice,
+          result,
         },
       });
 
-      if (newPrice === price) return;
+      if (priceStayedTheSame) return;
       // price stayed the same, no points
-
-      const isPredictionCorrect =
-        (prediction.direction === PredictionDirection.UP && newPrice > prediction.price) ||
-        (prediction.direction === PredictionDirection.DOWN && newPrice < prediction.price);
 
       await db.user.update({
         where: {
