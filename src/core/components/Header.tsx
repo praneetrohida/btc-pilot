@@ -1,7 +1,23 @@
-import { Burger, Button, Container, createStyles, Group, Header, rem, Title } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
-import { useCurrentUser } from "src/users/hooks/useCurrentUser"
-import { useRouter } from "next/router"
+import {
+  Burger,
+  Button,
+  Container,
+  createStyles,
+  Group,
+  Header,
+  rem,
+  Title,
+  Text,
+  Badge,
+  ActionIcon,
+  Tooltip,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { useCurrentUser } from "src/users/hooks/useCurrentUser";
+import { useRouter } from "next/router";
+import { TbAward, TbAwardFilled, TbCoins, TbLogout } from "react-icons/tb";
+import { useMutation } from "@blitzjs/rpc";
+import logout from "src/auth/mutations/logout";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -65,13 +81,15 @@ const useStyles = createStyles((theme) => ({
       color: theme.fn.variant({ variant: "light", color: theme.primaryColor }).color,
     },
   },
-}))
+}));
 
 export function AppHeader() {
-  const currentUser = useCurrentUser()
-  const [opened, { toggle }] = useDisclosure(false)
-  const { classes, cx } = useStyles()
-  const { route } = useRouter()
+  const currentUser = useCurrentUser();
+  const [opened, { toggle }] = useDisclosure(false);
+  const { classes, cx } = useStyles();
+  const { route } = useRouter();
+
+  const [logoutFn] = useMutation(logout);
 
   return (
     <Header height={56} mb={120}>
@@ -82,7 +100,7 @@ export function AppHeader() {
             href="/"
             className={cx(classes.link, { [classes.linkActive]: route === "/" })}
             onClick={(event) => {
-              event.preventDefault()
+              event.preventDefault();
             }}
           >
             Home
@@ -91,7 +109,7 @@ export function AppHeader() {
             href="/"
             className={cx(classes.link, { [classes.linkActive]: route === "/leaderboard" })}
             onClick={(event) => {
-              event.preventDefault()
+              event.preventDefault();
             }}
           >
             Leaderboard
@@ -100,10 +118,25 @@ export function AppHeader() {
 
         <Title className={classes.title}>BTC Pilot 🚀</Title>
 
-        <Group spacing={0} className={classes.rightGroup} position="right" noWrap>
-          {!currentUser && <Button>Start Playing</Button>}
+        <Group spacing={10} className={classes.rightGroup} position="right" noWrap>
+          {!currentUser && <Button>Play</Button>}
+          {currentUser && (
+            <>
+              <Badge size="lg">
+                <Group spacing={4}>
+                  <Text>{currentUser.score} points</Text>
+                  <TbAwardFilled size={18} />
+                </Group>
+              </Badge>
+              <Tooltip label="Logout">
+                <ActionIcon variant="subtle" size="lg" radius="lg" onClick={() => logoutFn()}>
+                  <TbLogout size={20} />
+                </ActionIcon>
+              </Tooltip>
+            </>
+          )}
         </Group>
       </Container>
     </Header>
-  )
+  );
 }

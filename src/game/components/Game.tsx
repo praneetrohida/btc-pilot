@@ -55,26 +55,32 @@ export const Game: React.FC = () => {
       <Instructions />
 
       <Stack align="center" justify="center" className={classes.gameContainer}>
-        {shouldShowGameResult && <GameResult prediction={currentPrediction} />}
-        {shouldShowStartButton && (
-          <>
-            {noTimeLeftToAnswer && <Text>Unfortunately, you ran out of time. Try again</Text>}
-            <Button onClick={startGame}>Start a new game</Button>
-          </>
-        )}
+        <>
+          {shouldShowGameResult && <GameResult prediction={currentPrediction} />}
+          {shouldShowStartButton && (
+            <>
+              {noTimeLeftToAnswer && <Text>Unfortunately, you ran out of time. Try again</Text>}
+              <Button onClick={startGame}>Start a new game</Button>
+            </>
+          )}
 
-        {error && (
-          <Alert color="red">An error occured when starting the game. Please try again</Alert>
-        )}
+          {error && (
+            <Alert color="red">An error occured when starting the game. Please try again</Alert>
+          )}
 
-        {gameInProgress.value && (
-          <Stack sx={{ textAlign: "center" }}>
-            {isLoading && <Loader />}
-            {!isLoading && btcPrice && (
-              <GameInput onSelect={onSelect} currentPrice={btcPrice} timeToAnswer={timeToAnswer} />
-            )}
-          </Stack>
-        )}
+          {gameInProgress.value && (
+            <Stack sx={{ textAlign: "center" }}>
+              {isLoading && <Loader />}
+              {!isLoading && btcPrice && (
+                <GameInput
+                  onSelect={onSelect}
+                  currentPrice={btcPrice}
+                  timeToAnswer={timeToAnswer}
+                />
+              )}
+            </Stack>
+          )}
+        </>
       </Stack>
     </Stack>
   );
