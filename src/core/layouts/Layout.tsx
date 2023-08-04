@@ -1,8 +1,8 @@
-import Head from "next/head"
-import React, { Suspense } from "react"
-import { BlitzLayout } from "@blitzjs/next"
-import { AppShell } from "@mantine/core"
-import { AppHeader } from "src/core/components/Header"
+import Head from "next/head";
+import React, { Suspense } from "react";
+import { BlitzLayout } from "@blitzjs/next";
+import { AppShell } from "@mantine/core";
+import { AppHeader } from "src/core/components/Header";
 
 const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
@@ -19,7 +19,8 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
         <AppShell header={<AppHeader />}>{children}</AppShell>
       </Suspense>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
+export const dynamic = "force-dynamic";
