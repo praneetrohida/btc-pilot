@@ -22,6 +22,7 @@ import logout from "src/auth/mutations/logout";
 import Link from "next/link";
 import { Routes } from "@blitzjs/next";
 import gravatarUrl from "gravatar-url";
+import { UserAvatar } from "../../users/components/UserAvatar";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -124,14 +125,7 @@ export function AppHeader() {
           )}
           {currentUser && (
             <>
-              <Avatar
-                radius="xl"
-                size={30}
-                src={gravatarUrl(currentUser.email, {
-                  size: 60,
-                  default: `https://source.boringavatars.com/beam/60/${currentUser.name}`,
-                })}
-              />
+              <UserAvatar email={currentUser.email} size={30} />
               <Badge size="lg">
                 <Group spacing={4}>
                   <Text>{currentUser.score} points</Text>
