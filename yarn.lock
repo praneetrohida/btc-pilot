@@ -2030,6 +2030,11 @@
   dependencies:
     "@types/express" "*"
 
+"@types/pluralize@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/pluralize/-/pluralize-0.0.30.tgz#cddb9923240c20d15e6d5f98fd576ec856b9b3db"
+  integrity sha512-kVww6xZrW/db5BR9OqiT71J9huRdQ+z/r+LbDuT7/EK50mCmj5FoaIARnVv0rvjUS/YpDox0cDU9lpQT011VBA==
+
 "@types/preview-email@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/preview-email/-/preview-email-2.0.1.tgz#df5d1ce7a3034e3dfcd2b38a66c1f60401b27dc8"

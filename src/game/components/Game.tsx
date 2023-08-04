@@ -6,8 +6,7 @@ import { useQuery } from "@blitzjs/rpc";
 import getBtcPrice from "src/game/queries/getBtcPrice";
 import { useTimeout } from "src/game/hooks/useTimeout";
 import { GameInput } from "src/game/components/GameInput";
-
-type DIRECTION = "up" | "down";
+import getCurrentPrediction from "src/game/queries/getCurrentPrediction";
 
 const useStyles = createStyles((theme) => ({
   gameContainer: {
@@ -41,33 +40,36 @@ export const Game: React.FC = () => {
     await refetch();
   };
 
-  const registerPrediction = (direction: DIRECTION) => {};
+  const [currentPrediction] = useQuery(getCurrentPrediction, null);
 
   return (
     <Stack spacing={40}>
       <Instructions />
 
       <Stack align="center" justify="center" className={classes.gameContainer}>
-        <>
-          {!hasStartedGame.value && (
-            <>
-              {noTimeLeftToAnswer && <Text>Unfortunately, you ran out of time. Try again</Text>}
-              <Button onClick={startGame}>Start a new game</Button>
-            </>
-          )}
-          {error && (
-            <Alert color="red">An error occured when starting the game. Please try again</Alert>
-          )}
+        {!currentPrediction && (
+          <>
+            {!hasStartedGame.value && (
+              <>
+                {noTimeLeftToAnswer && <Text>Unfortunately, you ran out of time. Try again</Text>}
+                <Button onClick={startGame}>Start a new game</Button>
+              </>
+            )}
+            {error && (
+              <Alert color="red">An error occured when starting the game. Please try again</Alert>
+            )}
 
-          {hasStartedGame.value && (
-            <Stack sx={{ textAlign: "center" }}>
-              {isLoading && <Loader />}
-              {!isLoading && btcPrice && (
-                <GameInput currentPrice={btcPrice} timeToAnswer={timeToAnswer} />
-              )}
-            </Stack>
-          )}
-        </>
+            {hasStartedGame.value && (
+              <Stack sx={{ textAlign: "center" }}>
+                {isLoading && <Loader />}
+                {!isLoading && btcPrice && (
+                  <GameInput currentPrice={btcPrice} timeToAnswer={timeToAnswer} />
+                )}
+              </Stack>
+            )}
+          </>
+        )}
+        {currentPrediction && <Text>Prediction </Text>}
       </Stack>
     </Stack>
   );
