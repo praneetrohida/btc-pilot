@@ -47,7 +47,7 @@ export default resolver.pipe(
 
       await db.user.update({
         where: {
-          id: ctx.session.userId,
+          id: ctx.session.userId!,
         },
         data: {
           score: {
