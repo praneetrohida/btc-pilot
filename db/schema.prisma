@@ -18,12 +18,13 @@ enum PredictionDirection {
 // --------------------------------------
 
 model Prediction {
-  createdAt DateTime            @default(now())
-  id        Int                 @id @default(autoincrement())
-  user      User                @relation(fields: [userId], references: [id])
-  userId    Int
-  direction PredictionDirection
-  price     Float
+  createdAt  DateTime            @default(now())
+  id         Int                 @id @default(autoincrement())
+  user       User                @relation(fields: [userId], references: [id])
+  userId     Int
+  direction  PredictionDirection
+  price      Float
+  laterPrice Float?
 }
 
 model User {
