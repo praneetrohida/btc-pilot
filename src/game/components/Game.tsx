@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Alert, Button, createStyles, Loader, Stack, Text } from "@mantine/core";
 import { Instructions } from "src/game/components/Instructions";
 import { useBoolean } from "react-hanger";
@@ -46,7 +46,19 @@ export const Game: React.FC = () => {
     gameInProgress.setFalse();
   };
 
-  const [currentPrediction] = useQuery(getCurrentPrediction, null);
+  const [predictionPollingInterval, setPredictionPollingInterval] = React.useState(0);
+
+  const [currentPrediction] = useQuery(getCurrentPrediction, null, {
+    refetchInterval: predictionPollingInterval,
+  });
+
+  useEffect(() => {
+    if (currentPrediction?.isPending) {
+      setPredictionPollingInterval(2000);
+    } else {
+      setPredictionPollingInterval(0);
+    }
+  }, [currentPrediction?.isPending]);
 
   let shouldShowGameResult = !gameInProgress.value && currentPrediction && !noTimeLeftToAnswer;
   let shouldShowStartButton = !gameInProgress.value && !currentPrediction?.isPending;

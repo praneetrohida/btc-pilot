@@ -7,6 +7,7 @@ import { invalidateQuery } from "@blitzjs/rpc";
 import { PredictionResult } from "db";
 import { formatCurrency } from "../utils/formatCurrency";
 import { GAME_TIME } from "../config";
+import getCurrentUser from "../../users/queries/getCurrentUser";
 
 const useStyles = createStyles((theme) => ({
   timeLeft: { fontSize: "5rem", fontWeight: 900, color: theme.primaryColor },
@@ -18,8 +19,11 @@ export const GameResult: React.FC<{
   const { classes } = useStyles();
   const timeToResult = useRef(GAME_TIME - (Date.now() - prediction!.createdAt.getTime()) / 1000);
 
-  const onTimeout = async () => {
-    await invalidateQuery(getCurrentPrediction);
+  const onTimeout = () => {
+    setTimeout(async () => {
+      await invalidateQuery(getCurrentPrediction);
+      await invalidateQuery(getCurrentUser);
+    }, 1000);
   };
 
   const [timeLeft, isTimedOut] = useTimeout({
