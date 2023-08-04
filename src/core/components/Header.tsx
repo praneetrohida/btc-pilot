@@ -1,4 +1,6 @@
 import {
+  ActionIcon,
+  Badge,
   Burger,
   Button,
   Container,
@@ -6,18 +8,18 @@ import {
   Group,
   Header,
   rem,
-  Title,
   Text,
-  Badge,
-  ActionIcon,
+  Title,
   Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useCurrentUser } from "src/users/hooks/useCurrentUser";
 import { useRouter } from "next/router";
-import { TbAward, TbAwardFilled, TbCoins, TbLogout } from "react-icons/tb";
+import { TbAwardFilled, TbLogout, TbRocket } from "react-icons/tb";
 import { useMutation } from "@blitzjs/rpc";
 import logout from "src/auth/mutations/logout";
+import Link from "next/link";
+import { Routes } from "@blitzjs/next";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -96,21 +98,15 @@ export function AppHeader() {
       <Container className={classes.inner}>
         <Burger opened={opened} onClick={toggle} size="sm" className={classes.burger} />
         <Group className={classes.links} spacing={5}>
-          <a
-            href="/"
+          <Link
+            href={Routes.Home()}
             className={cx(classes.link, { [classes.linkActive]: route === "/" })}
-            onClick={(event) => {
-              event.preventDefault();
-            }}
           >
             Home
-          </a>
+          </Link>
           <a
             href="/"
             className={cx(classes.link, { [classes.linkActive]: route === "/leaderboard" })}
-            onClick={(event) => {
-              event.preventDefault();
-            }}
           >
             Leaderboard
           </a>
@@ -119,7 +115,11 @@ export function AppHeader() {
         <Title className={classes.title}>BTC Pilot 🚀</Title>
 
         <Group spacing={10} className={classes.rightGroup} position="right" noWrap>
-          {!currentUser && <Button>Play</Button>}
+          {!currentUser && (
+            <Button component={Link} href={Routes.LoginPage()} leftIcon={<TbRocket size={18} />}>
+              Play
+            </Button>
+          )}
           {currentUser && (
             <>
               <Badge size="lg">
