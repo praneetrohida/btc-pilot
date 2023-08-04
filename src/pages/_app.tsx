@@ -34,6 +34,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         theme={{
           /** Put your mantine theme override here */
           colorScheme: "dark",
+          primaryColor: "orange",
+          fontFamily: "monospace",
         }}
       >
         {getLayout(<Component {...pageProps} />)}

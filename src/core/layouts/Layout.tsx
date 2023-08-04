@@ -1,16 +1,23 @@
 import Head from "next/head"
-import React, {FC} from "react"
-import {BlitzLayout} from "@blitzjs/next"
+import React, { Suspense } from "react"
+import { BlitzLayout } from "@blitzjs/next"
+import { AppShell } from "@mantine/core"
+import { AppHeader } from "src/core/components/Header"
 
-const Layout: BlitzLayout<{title?: string; children?: React.ReactNode}> = ({title, children}) => {
+const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
+  title,
+  children,
+}) => {
   return (
     <>
       <Head>
-        <title>{title || "btc-pilot"}</title>
+        <title>{title || "BTC Pilot 🚀"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {children}
+      <Suspense fallback="Loading...">
+        <AppShell header={<AppHeader />}>{children}</AppShell>
+      </Suspense>
     </>
   )
 }
