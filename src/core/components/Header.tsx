@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Avatar,
   Badge,
   Burger,
   Button,
@@ -20,6 +21,7 @@ import { useMutation } from "@blitzjs/rpc";
 import logout from "src/auth/mutations/logout";
 import Link from "next/link";
 import { Routes } from "@blitzjs/next";
+import gravatarUrl from "gravatar-url";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -104,12 +106,12 @@ export function AppHeader() {
           >
             Home
           </Link>
-          <a
-            href="/"
+          <Link
+            href={Routes.LeaderboardPage()}
             className={cx(classes.link, { [classes.linkActive]: route === "/leaderboard" })}
           >
             Leaderboard
-          </a>
+          </Link>
         </Group>
 
         <Title className={classes.title}>BTC Pilot 🚀</Title>
@@ -122,6 +124,14 @@ export function AppHeader() {
           )}
           {currentUser && (
             <>
+              <Avatar
+                radius="xl"
+                size={30}
+                src={gravatarUrl(currentUser.email, {
+                  size: 60,
+                  default: `https://source.boringavatars.com/beam/60/${currentUser.name}`,
+                })}
+              />
               <Badge size="lg">
                 <Group spacing={4}>
                   <Text>{currentUser.score} points</Text>
