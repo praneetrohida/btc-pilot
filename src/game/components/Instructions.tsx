@@ -1,5 +1,6 @@
 import { createStyles, List, Stack, Title } from "@mantine/core";
 import React from "react";
+import { GAME_TIME } from "../config";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -19,8 +20,8 @@ export const Instructions: React.FC = () => {
         </List.Item>{" "}
         <List.Item>You will be shown the current BTC price in USD</List.Item>
         <List.Item>
-          Guess if the price will be higher or lower in 60 seconds. You have 5 seconds to make your
-          guess.
+          Guess if the price will be higher or lower in {GAME_TIME} seconds. You have 5 seconds to
+          make your guess.
         </List.Item>
         <List.Item>
           If you guess correctly, you win a point! If you guess incorrectly, you lose a point.

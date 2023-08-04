@@ -7,6 +7,7 @@ import createPredictionMutation from "../mutations/createPrediction";
 import { PredictionDirection } from "db";
 import getCurrentPrediction from "src/game/queries/getCurrentPrediction";
 import { formatCurrency } from "../utils/formatCurrency";
+import { GAME_TIME } from "../config";
 
 const useStyles = createStyles((theme) => ({
   btcPrice: {
@@ -34,7 +35,7 @@ export const GameInput: React.FC<{
     <>
       <Text>Current BTC Price</Text>
       <Text className={classes.btcPrice}>{formatCurrency(currentPrice)}</Text>
-      <Text>Where do you think the price will go in the next 60 seconds?</Text>
+      <Text>Where do you think the price will go in the next {GAME_TIME} seconds?</Text>
       <Group position="center">
         <Button
           leftIcon={<TbArrowUp />}

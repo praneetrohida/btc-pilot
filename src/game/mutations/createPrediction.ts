@@ -3,6 +3,7 @@ import { z } from "zod";
 import db, { PredictionDirection, PredictionResult } from "db";
 import ms from "ms";
 import { getLatestBtcPrice } from "src/game/utils/getLatestBtcPrice";
+import { GAME_TIME } from "../config";
 
 const CreatePredictionSchema = z.object({
   price: z.number(),
@@ -64,6 +65,6 @@ export default resolver.pipe(
           },
         },
       });
-    }, ms("60s"));
+    }, ms(`${GAME_TIME}s`));
   }
 );
