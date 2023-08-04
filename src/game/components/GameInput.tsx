@@ -6,6 +6,7 @@ import { invalidateQuery, useMutation } from "@blitzjs/rpc";
 import createPredictionMutation from "../mutations/createPrediction";
 import { PredictionDirection } from "db";
 import getCurrentPrediction from "src/game/queries/getCurrentPrediction";
+import { formatCurrency } from "../utils/formatCurrency";
 
 const useStyles = createStyles((theme) => ({
   btcPrice: {
@@ -32,9 +33,7 @@ export const GameInput: React.FC<{
   return (
     <>
       <Text>Current BTC Price</Text>
-      <Text className={classes.btcPrice}>
-        {currentPrice?.toLocaleString("en-US", { style: "currency", currency: "USD" })}
-      </Text>
+      <Text className={classes.btcPrice}>{formatCurrency(currentPrice)}</Text>
       <Text>Where do you think the price will go in the next 60 seconds?</Text>
       <Group position="center">
         <Button

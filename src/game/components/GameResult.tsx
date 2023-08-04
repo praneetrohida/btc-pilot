@@ -5,6 +5,7 @@ import { PromiseReturnType } from "blitz";
 import { useTimeout } from "src/game/hooks/useTimeout";
 import { invalidateQuery } from "@blitzjs/rpc";
 import { PredictionResult } from "db";
+import { formatCurrency } from "../utils/formatCurrency";
 
 const useStyles = createStyles((theme) => ({
   timeLeft: { fontSize: "5rem", fontWeight: 900, color: theme.primaryColor },
@@ -45,7 +46,8 @@ export const GameResult: React.FC<{
                 <Text> Uh oh! The price stayed the same. Try again? </Text>
               )}
               You predicted that the price would go {prediction.direction.toLowerCase()}. <br />
-              The price went from {prediction.price} to {prediction.laterPrice}
+              The price went from {formatCurrency(prediction.price)} to{" "}
+              {formatCurrency(prediction.laterPrice)}
             </>
           )}
         </>

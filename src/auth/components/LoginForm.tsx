@@ -6,6 +6,7 @@ import login from "src/auth/mutations/login";
 import { Login } from "src/auth/schemas";
 import { useMutation } from "@blitzjs/rpc";
 import { Routes } from "@blitzjs/next";
+import { Anchor } from "@mantine/core";
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void;
@@ -42,7 +43,10 @@ export const LoginForm = (props: LoginFormProps) => {
       </Form>
 
       <div style={{ marginTop: "1rem" }}>
-        Or <Link href={Routes.SignupPage()}>Sign Up</Link>
+        Or{" "}
+        <Anchor component={Link} href={Routes.SignupPage()}>
+          Sign Up
+        </Anchor>
       </div>
     </div>
   );
