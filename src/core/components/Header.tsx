@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Avatar,
   Badge,
   Burger,
   Button,
@@ -21,7 +20,6 @@ import { useMutation } from "@blitzjs/rpc";
 import logout from "src/auth/mutations/logout";
 import Link from "next/link";
 import { Routes } from "@blitzjs/next";
-import gravatarUrl from "gravatar-url";
 import { UserAvatar } from "../../users/components/UserAvatar";
 
 const useStyles = createStyles((theme) => ({

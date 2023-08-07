@@ -1,13 +1,30 @@
 import Head from "next/head";
 import React, { Suspense } from "react";
 import { BlitzLayout } from "@blitzjs/next";
-import { AppShell } from "@mantine/core";
+import { AppShell, Container, createStyles, Loader } from "@mantine/core";
 import { AppHeader } from "src/core/components/Header";
+
+const useStyles = createStyles((theme) => ({
+  loaderContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+  },
+}));
 
 const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
   children,
 }) => {
+  const { classes } = useStyles();
+
+  const loader = (
+    <Container className={classes.loaderContainer}>
+      <Loader size="lg" />
+    </Container>
+  );
+
   return (
     <>
       <Head>
@@ -15,7 +32,7 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Suspense fallback="Loading...">
+      <Suspense fallback={loader}>
         <AppShell header={<AppHeader />}>{children}</AppShell>
       </Suspense>
     </>
