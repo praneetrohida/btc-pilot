@@ -1,5 +1,8 @@
 # ****BTC Pilot 🚀****
 
+## App Flow
+![flow.png](./flow.png)
+
 ## Getting Started
 
 Run database migrations on your local database. Make sure your Postgres service is running and the Environment Variables are set correctly
