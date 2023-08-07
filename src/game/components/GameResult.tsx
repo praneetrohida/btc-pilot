@@ -8,6 +8,7 @@ import { PredictionResult } from "db";
 import { formatCurrency } from "../utils/formatCurrency";
 import { GAME_TIME } from "../config";
 import getCurrentUser from "../../users/queries/getCurrentUser";
+import { useTimeToResult } from "src/game/hooks/useTimeToResult";
 
 const useStyles = createStyles((theme) => ({
   timeLeft: { fontSize: "5rem", fontWeight: 900, color: theme.primaryColor },
@@ -17,7 +18,7 @@ export const GameResult: React.FC<{
   prediction: PromiseReturnType<typeof getCurrentPrediction>;
 }> = ({ prediction }) => {
   const { classes } = useStyles();
-  const timeToResult = useRef(GAME_TIME - (Date.now() - prediction!.createdAt.getTime()) / 1000);
+  const timeToResult = useTimeToResult(prediction!.createdAt);
 
   const onTimeout = () => {
     setTimeout(async () => {
@@ -27,7 +28,7 @@ export const GameResult: React.FC<{
   };
 
   const [timeLeft, isTimedOut] = useTimeout({
-    duration: Math.max(0, Math.round(timeToResult.current)),
+    duration: Math.max(0, Math.round(timeToResult)),
     onEnd: onTimeout,
     autoStart: true,
   });
