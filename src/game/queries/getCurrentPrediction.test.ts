@@ -32,7 +32,7 @@ describe("getCurrentPrediction", () => {
     expect(result).toBeNull();
   });
 
-  it("returns the latest prediction when a prediction is found", async ({ is }) => {
+  it("returns the latest prediction when a prediction is found", async ({ expect }) => {
     const user = await createMockUser();
     mockCtx.session.userId = user.id;
 
