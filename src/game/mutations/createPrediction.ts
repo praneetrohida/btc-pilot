@@ -66,5 +66,6 @@ export default resolver.pipe(
         },
       });
     }, ms(`${GAME_TIME}s`));
+    return prediction;
   }
 );
