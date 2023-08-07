@@ -1,6 +1,7 @@
 import { beforeEach, describe, it } from "vitest";
 import db from "db";
 import getCurrentUser from "./getCurrentUser";
+import { createMockUser } from "src/users/queries/test-utils";
 
 beforeEach(async () => {
   await db.$reset();
@@ -27,9 +28,7 @@ describe("getCurrentUser", () => {
       score: 100,
     };
 
-    const user = await db.user.create({
-      data: mockUser,
-    });
+    const user = await createMockUser();
 
     const mockCtx: any = {
       session: {
