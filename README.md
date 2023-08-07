@@ -1,6 +1,6 @@
 # ****BTC Pilot 🚀****
 
-[https://btc-pilot.praneet.dev](!https://btc-pilot.praneet.dev)
+[btc-pilot.praneet.dev](https://btc-pilot.praneet.dev)
 
 ## App Flow
 ![flow.png](./flow.png)
