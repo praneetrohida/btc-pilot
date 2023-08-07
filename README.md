@@ -1,15 +1,17 @@
-[![Blitz.js](https://raw.githubusercontent.com/blitz-js/art/master/github-cover-photo.png)](https://blitzjs.com)
-
-This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
-
-# ****name****
+# ****BTC Pilot 🚀****
 
 ## Getting Started
+
+Run database migrations on your local database. Make sure your Postgres service is running and the Environment Variables are set correctly
+
+```
+yarn migrate:dev
+```
 
 Run your app in the development mode.
 
 ```
-blitz dev
+yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -20,23 +22,25 @@ Ensure the `.env.local` file has required environment variables:
 
 ```
 DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/btc-pilot
+CMC_API_KEY=<YOUR_COINMARKETCAP_API_KEY>
 ```
 
 Ensure the `.env.test.local` file has required environment variables:
 
 ```
 DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/btc-pilot_test
+CMC_API_KEY=<YOUR_COINMARKETCAP_API_KEY>
 ```
+
+[Generate CoinMarketCap API Key](https://coinmarketcap.com/api/)
 
 ## Tests
 
-Runs your tests using Jest.
+Runs your tests using Vitest.
 
 ```
 yarn test
 ```
-
-Blitz comes with a test setup using [Vitest](https://vitest.dev/) and [react-testing-library](https://testing-library.com/).
 
 ## Commands
 
@@ -59,14 +63,12 @@ Blitz comes with a powerful CLI that is designed to make development easy and fa
 
 You can read more about it on the [CLI Overview](https://blitzjs.com/docs/cli-overview) documentation.
 
-## What's included?
+## Directory Structure
 
-Here is the starting structure of your app.
 
 ```
 btc-pilot
 ├── src/
-│   ├── api/
 │   ├── auth/
 │   │   ├── components/
 │   │   │   ├── LoginForm.tsx
@@ -92,12 +94,22 @@ btc-pilot
 │   │   │   └── LabeledTextField.tsx
 │   │   └── layouts/
 │   │       └── Layout.tsx
+│   ├── game/
+│   │   ├── components/
+│   │   │   ├── Game.tsx
+│   │   │   └── GameInput.tsx
+│   │   │   └── GameResult.tsx
+│   │   │   └── ...
+│   │   └── quries/
+│   │       └── ...
+│   │   └── mutations/
+│   │       └── ...
 │   ├── pages/
 │   │   ├── _app.tsx
 │   │   ├── _document.tsx
 │   │   ├── 404.tsx
-│   │   ├── index.test.tsx
 │   │   └── index.tsx
+│   │   └── leaderboard.tsx
 │   └── users/
 │       ├── hooks/
 │       │   └── useCurrentUser.ts
